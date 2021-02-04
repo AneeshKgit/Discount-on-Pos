@@ -106,7 +106,8 @@ var DiscountPosButton = pos_screens.ActionButtonWidget.extend({
 pos_screens.define_action_button({
     'name': 'DiscountPos',
     'widget': DiscountPosButton,
-    'condition': function(){return this.pos;},
+    'condition': function(){
+        return this.pos.config.module_discount_on_pos},
 });
 
 return {
