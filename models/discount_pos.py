@@ -6,6 +6,8 @@ from odoo import api, fields, models
 class PosConfig(models.Model):
     _inherit = 'pos.config'
 
+    module_discount_on_pos = fields.Boolean("Discount")
+
     discount_pos_type = fields.Selection([('amount', 'Amount'),
                                           ('percentage', 'Percentage')],
                                          string='Discount Type',
@@ -23,7 +25,7 @@ class PosConfig(models.Model):
 
     # print("disc ", discount_product_id)
 
-    @api.onchange('discount_pos_type')
+    @api.onchange('module_discount_on_pos')
     def _onchange_discount_pos_type(self):
         print("test")
         print("self ", self.discount_pos_product_id)

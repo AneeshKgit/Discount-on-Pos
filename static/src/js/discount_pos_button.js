@@ -109,7 +109,7 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
     ProductScreen.addControlButton({
         component: DiscountPosButton,
         condition: function() {
-            return true;
+            return this.env.pos.config.module_discount_on_pos;
         },
 //       position: ['before', 'SetPricelistButton'],
 
