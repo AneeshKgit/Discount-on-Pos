@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+   <t t-extend="Orderline">
+        <t t-jquery=".info-list" t-operation='append'>
+            <t t-if="line.get_product().display_name== 'Discount'">
+
+                <li class="info">
+                    <t t-if="line.get_product().description_sale == 'percentage'">
+                            Discount Percentage =
+                            <em>
+                                <t t-esc="line.get_product().description" />
+                            </em>
+
+                    </t>
+                    <t t-if="line.get_product().description_sale == 'amount'">
+                            Discount Amount =
+                            <em>
+                                <t t-esc="widget.format_currency(line.get_product().description)" />
+                            </em>
+                    </t>
+
+                </li>
+            </t>
+
+        </t>
+
+   </t>
+</templates>

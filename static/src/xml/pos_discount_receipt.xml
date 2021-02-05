@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<templates id="template" xml:space="preserve">-->
+<!--   <t t-extend="OrderReceipt">-->
+<!--       <t t-jquery=".pos-receipt .pos-receipt-amount" t-operation='before'>-->
+<!--&lt;!&ndash;           <t t-if='receipt.client'>&ndash;&gt;-->
+<!--               <div style="font-weight:bold;">Discount:</div>-->
+<!--&lt;!&ndash;           </t>&ndash;&gt;-->
+<!--       </t>-->
+<!--   </t>-->
+<!--</templates>-->
+
+<templates id="template" xml:space="preserve">
+   <t t-extend="OrderReceipt">
+        <t t-jquery=".pos-receipt" t-operation='append'>
+<!--       <t t-set='taxincluded' t-value='Math.abs(receipt.subtotal - receipt.total_with_tax) &lt;= 0.000001' />-->
+<!--            <t t-if='module_discount_on_pos'>-->
+                <div class="pos-receipt-right-align">--------</div>
+                <br/>
+                <div>Discount<span t-esc='widget.format_currency(discount_value)' class="pos-receipt-right-align"/></div>
+<!--                <t t-foreach='receipt.tax_details' t-as='tax'>-->
+<!--                    <div>-->
+<!--                        <t t-esc='tax.name' />-->
+<!--                        <span t-esc='widget.format_currency_no_symbol(tax.amount)' class="pos-receipt-right-align"/>-->
+<!--                    </div>-->
+<!--                </t>-->
+<!--            </t>-->
+        </t>
+
+   </t>
+</templates>
+
+<!-- Subtotal -->
+
+<!--            <t t-set='taxincluded' t-value='Math.abs(receipt.subtotal - receipt.total_with_tax) &lt;= 0.000001' />-->
+<!--            <t t-if='!taxincluded'>-->
+<!--                <div class="pos-receipt-right-align">&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</div>-->
+<!--                <br/>-->
+<!--                <div>Subtotal<span t-esc='widget.format_currency(receipt.subtotal)' class="pos-receipt-right-align"/></div>-->
+<!--                <t t-foreach='receipt.tax_details' t-as='tax'>-->
+<!--                    <div>-->
+<!--                        <t t-esc='tax.name' />-->
+<!--                        <span t-esc='widget.format_currency_no_symbol(tax.amount)' class="pos-receipt-right-align"/>-->
+<!--                    </div>-->
+<!--                </t>-->
+<!--            </t>-->

@@ -22,10 +22,10 @@ var DiscountPosButton = pos_screens.ActionButtonWidget.extend({
 
         if (discount_pos_type == 'amount'){
             this.gui.show_popup('number',{
-                'title': _t('Discount amount'),
+                'title': _t('Discount Amount'),
                 'value': this.pos.config.discount_value,
                 'confirm': function(val) {
-                    val = Math.round(Math.max(0,Math.min(100,val)));
+//                    val = Math.round(Math.max(0,Math.min(100,val)));
 //                    console.log("value ",value)
                     console.log("value ",val)
                     self.apply_discount(val);
@@ -61,19 +61,35 @@ var DiscountPosButton = pos_screens.ActionButtonWidget.extend({
             return;
         }
 
+
+
         console.log("prod ", product)
+        console.log("prod ", product.display_name)
         console.log("pc ", pc)
         console.log("tot with tax ", order.get_total_with_tax())
         console.log("tot  ", order.get_total_without_tax())
 //        console.log("this ", this.pos.config.tip_product_id[0])
 
         // Remove existing discounts
+        var dis_name = 'Discount';
         var i = 0;
         while ( i < lines.length ) {
             if (lines[i].get_product() === product) {
                 order.remove_orderline(lines[i]);
+
+                console.log('before name change done', product.display_name);
+                product.display_name = dis_name;
+                console.log('name change done', product.display_name);
+
+
+                console.log("done");
+
             } else {
+                console.log('pppp-', lines[i].get_product())
+                console.log('pppp-', lines[i].get_product().info)
+                console.log('tttt -', lines[i].get_discount_str())
                 i++;
+
             }
         }
 
@@ -86,17 +102,60 @@ var DiscountPosButton = pos_screens.ActionButtonWidget.extend({
             }
         }
 
-        // Add service_charge
+
+        // Add discount_value
         if (discount_pos_type == 'amount'){
+            var n = pc.toString();
+//            product.display_name += '(Amount)';
+            product.description = n ;
+            product.description_sale = 'amount';
             var discount_value = -pc;
+
         }
         if (discount_pos_type == 'percentage'){
+            var n = pc.toString();
+//            product.display_name += '('+ n + '%)';
+              product.description = n + '%';
+              product.description_sale = 'percentage';
+
             var discount_value =  - (pc / 100.0 * base_to_discount);
         }
 
         if( discount_value < 0 ){
             order.add_product(product, { price: discount_value });
+
         }
+//        get_discount_value: function(){
+////            if(this.discount_value){
+////                return this.discount_value;
+////            }
+////            else{
+////                return 0;
+////            }
+//        return 5;
+//
+//        },
+        var j=0;
+        while ( j < lines.length ) {
+
+            if (lines[j].get_product() === product) {
+
+                console.log('lines[j].getproduct',lines[j].get_product());
+                console.log('lines[j].getDiscount',lines[j].get_discount_str() );
+                console.log('lines[j]p.desc',lines[j].get_product().description);
+//                console.log('Symbol',widget.format_currency(lines[j].get_unit_display_price()));
+                console.log('Symbol', this.pos.company);
+                console.log('Symbol', this.pos.company.currency_id);
+
+
+            }
+            j++;
+
+        }
+
+
+
+
     },
 });
 

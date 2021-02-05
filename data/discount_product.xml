@@ -12,6 +12,7 @@
             <field name="uom_po_id" ref="uom.product_uom_unit"/>
             <field name="default_code">POS_DISC</field>
             <field name="purchase_ok">False</field>
+<!--            <field name="taxes_id">account.tax()</field>-->
         </record>
     </data>
 </odoo>
