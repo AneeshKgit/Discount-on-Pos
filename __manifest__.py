@@ -28,5 +28,6 @@
         # 'static/src/xml/*.xml',
         'static/src/xml/pos_button.xml',
         'static/src/xml/pos_discount_lines.xml',
+        'static/src/xml/pos_discount_receipt.xml',
     ],
 }

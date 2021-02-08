@@ -7,14 +7,14 @@
 
                 <li class="info">
                     <t t-if="line.get_product().description_sale == 'percentage'">
-                            Discount Percentage =
+                            Percentage =
                             <em>
                                 <t t-esc="line.get_product().description" />
                             </em>
 
                     </t>
                     <t t-if="line.get_product().description_sale == 'amount'">
-                            Discount Amount =
+                            Amount =
                             <em>
                                 <t t-esc="widget.format_currency(line.get_product().description)" />
                             </em>

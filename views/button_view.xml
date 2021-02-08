@@ -3,9 +3,7 @@
   <data>
      <template id="pos_action_button" inherit_id="point_of_sale.assets">
         <xpath expr="." position="inside">
-            <!-- Style sheet for button -->
-<!--            <link rel="stylesheet" href="/account/static/src/css/account_bank_and_cash.css"/>-->
-            <script type="text/javascript" src="/discount_on_pos/static/src/js/action_button.js"/>
+            <script type="text/javascript" src="/discount_on_pos/static/src/js/discount_pos_button.js"/>
         </xpath>
     </template>
   </data>

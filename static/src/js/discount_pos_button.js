@@ -46,6 +46,7 @@ var DiscountPosButton = pos_screens.ActionButtonWidget.extend({
             });
         }
     },
+
     apply_discount: function(pc) {
         var order    = this.pos.get_order();
         var discount_pos_type = this.pos.config.discount_pos_type;
@@ -63,31 +64,34 @@ var DiscountPosButton = pos_screens.ActionButtonWidget.extend({
 
 
 
-        console.log("prod ", product)
-        console.log("prod ", product.display_name)
+        console.log("product ", product)
+        console.log("product.display_name ", product.display_name)
         console.log("pc ", pc)
-        console.log("tot with tax ", order.get_total_with_tax())
-        console.log("tot  ", order.get_total_without_tax())
-//        console.log("this ", this.pos.config.tip_product_id[0])
+//        console.log("tot with tax ", order.get_total_with_tax())
+//        console.log("tot without tax ", order.get_total_without_tax())
+
 
         // Remove existing discounts
-        var dis_name = 'Discount';
+//        var dis_name = 'Discount';
         var i = 0;
         while ( i < lines.length ) {
             if (lines[i].get_product() === product) {
                 order.remove_orderline(lines[i]);
 
-                console.log('before name change done', product.display_name);
-                product.display_name = dis_name;
-                console.log('name change done', product.display_name);
+//                console.log('before name change done', product.display_name);
+//                product.display_name = dis_name;
+//                console.log('name change done', product.display_name);
 
 
                 console.log("done");
 
             } else {
-                console.log('pppp-', lines[i].get_product())
-                console.log('pppp-', lines[i].get_product().info)
-                console.log('tttt -', lines[i].get_discount_str())
+                console.log('lines[i].get_product()-', lines[i].get_product())
+                console.log('lines[i].get_product().info-', lines[i].get_product().info)
+                console.log('lines[i].get_discount_str() -', lines[i].get_discount_str())
+                console.log('order' ,order )
+                console.log('lines' ,lines )
+//                console.log('' , )
                 i++;
 
             }
