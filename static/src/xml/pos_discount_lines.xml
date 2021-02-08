@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+
+        <ul class="info-list">
+            <t t-if="props.line.get_product().display_name== 'Discount'">
+
+                <li class="info">
+                    <t t-if="props.line.get_product().description_sale == 'percentage'">
+                            Percentage =
+                            <em>
+                                <t t-esc="props.line.get_product().description" />
+                            </em>
+
+                    </t>
+                    <t t-if="props.line.get_product().description_sale == 'amount'">
+                            Amount =
+                            <em>
+                                <t t-esc="env.pos.format_currency(props.line.get_product().description)" />
+                            </em>
+                    </t>
+
+                </li>
+            </t>
+        </ul>
+
+    </t>
+
+</templates>
+
+<!--<templates id="template" xml:space="preserve">-->
+<!--   <t t-extend="Orderline">-->
+<!--        <t t-jquery=".info-list" t-operation='append'>-->
+<!--            <t t-if="line.get_product().display_name== 'Discount'">-->
+
+<!--                <li class="info">-->
+<!--                    <t t-if="line.get_product().description_sale == 'percentage'">-->
+<!--                            Percentage =-->
+<!--                            <em>-->
+<!--                                <t t-esc="line.get_product().description" />-->
+<!--                            </em>-->
+
+<!--                    </t>-->
+<!--                    <t t-if="line.get_product().description_sale == 'amount'">-->
+<!--                            Amount =-->
+<!--                            <em>-->
+<!--                                <t t-esc="widget.format_currency(line.get_product().description)" />-->
+<!--                            </em>-->
+<!--                    </t>-->
+
+<!--                </li>-->
+<!--            </t>-->
+
+<!--        </t>-->
+
+<!--   </t>-->
+<!--</templates>-->

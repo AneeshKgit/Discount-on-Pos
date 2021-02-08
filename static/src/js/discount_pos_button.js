@@ -29,10 +29,7 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
                            const val = Math.round(Math.max(0,Math.min(100,parseFloat(payload))));
                            console.log('val ', val)
                            await self.apply_discount(val);
-
                        }
-
-
                    }
 
                 if (discount_pos_type == 'percentage'){
@@ -57,8 +54,8 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
             }//ASYNC
 
             async apply_discount(pc) {
-                var order    = this.env.pos.get_order();
-                var lines    = order.get_orderlines();
+                var order = this.env.pos.get_order();
+                var lines = order.get_orderlines();
                 var discount_pos_type = this.env.pos.config.discount_pos_type;
                 var product  = this.env.pos.db.get_product_by_id(this.env.pos.config.discount_pos_product_id[0]);
                 if (product === undefined) {
@@ -70,10 +67,12 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
                 }
 
                 // Remove existing discounts
+//                var dis_name = 'Discount';
                 var i = 0;
                 while ( i < lines.length ) {
                     if (lines[i].get_product() === product) {
                         order.remove_orderline(lines[i]);
+//                        product.display_name = dis_name;
                     } else {
                         i++;
                     }
@@ -90,14 +89,37 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
                 }
 
                 if (discount_pos_type == 'amount'){
+                    var n = pc.toString();
+                    product.description = n ;
+                    product.description_sale = 'amount';
+
                     var discount_value = -pc;
                 }
                 if (discount_pos_type == 'percentage'){
+                    var n = pc.toString();
+//                    product.display_name += '('+ n + '%)';
+                    product.description = n + '%';
+                    product.description_sale = 'percentage';
+
                     var discount_value =  - (pc / 100.0 * base_to_discount);
                 }
 
                 if( discount_value < 0 ){
                     order.add_product(product, { price: discount_value });
+                }
+
+                var j=0;
+                while ( j < lines.length ) {
+
+                    if (lines[j].get_product() === product) {
+
+                        console.log('lines[j].getproduct',lines[j].get_product());
+                        console.log('lines[j].getDiscount',lines[j].get_discount_str() );
+                        console.log('lines[j]p.desc',lines[j].get_product().description);
+
+                    }
+                    j++;
+
                 }
             }
 
