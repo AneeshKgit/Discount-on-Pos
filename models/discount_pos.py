@@ -25,7 +25,7 @@ class PosConfig(models.Model):
     # print("disc ", discount_product_id)
 
     @api.onchange('module_discount_on_pos')
-    def _onchange_discount_pos_type(self):
+    def _onchange_module_discount_on_pos(self):
         print("test")
         print("self ", self.discount_pos_product_id)
         print("self ", self.env.ref('discount_on_pos.product_discount_pos'))

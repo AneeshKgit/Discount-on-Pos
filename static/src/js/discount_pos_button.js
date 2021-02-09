@@ -129,16 +129,7 @@ var DiscountPosButton = pos_screens.ActionButtonWidget.extend({
             order.add_product(product, { price: discount_value });
 
         }
-//        get_discount_value: function(){
-////            if(this.discount_value){
-////                return this.discount_value;
-////            }
-////            else{
-////                return 0;
-////            }
-//        return 5;
-//
-//        },
+
         var j=0;
         while ( j < lines.length ) {
 
