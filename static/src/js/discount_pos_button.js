@@ -6,6 +6,8 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
     const { useListener } = require('web.custom_hooks');
     const Registries = require('point_of_sale.Registries');
 
+    var models = require('point_of_sale.models');
+
     class DiscountPosButton extends PosComponent {
            constructor () {
                super (... arguments);
@@ -16,7 +18,6 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
                var discount_pos_type = this.env.pos.config.discount_pos_type;
 
                    if (discount_pos_type == 'amount'){
-                        console.log('AAMOUNT')
                         const { confirmed, payload } = await this.showPopup('NumberPopup', {
                            title: this.env._t('Discount Amount'),
                            body: this.env._t('This click is successfully done.'),
@@ -24,34 +25,24 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
 
                        });
                        if (confirmed) {
-                           console.log('Button clicked')
-                           console.log('discount_pos_type', discount_pos_type)
-                           const val = Math.round(Math.max(0,Math.min(100,parseFloat(payload))));
-                           console.log('val ', val)
+                           const val = parseFloat(payload);
                            await self.apply_discount(val);
                        }
                    }
 
                 if (discount_pos_type == 'percentage'){
-                    console.log('PPercentage')
+
                     const { confirmed, payload } = await this.showPopup('NumberPopup', {
                         title: this.env._t('Discount Percentage'),
-//                        body: this.env._t('This click is successfully done.'),
                         startingValue: this.env.pos.config.discount_pos_value,
                     });
                     if (confirmed) {
-                        console.log('Button clicked')
-                        console.log('discount_pos_type', discount_pos_type)
+
                         const val = Math.round(Math.max(0,Math.min(100,parseFloat(payload))));
-                        console.log('val ', val)
                         await self.apply_discount(val);
                     }
-
-
                }
-
-
-            }//ASYNC
+            }//ASYNC ONCLICK
 
             async apply_discount(pc) {
                 var order = this.env.pos.get_order();
@@ -108,23 +99,9 @@ odoo.define('discount_on_pos.DiscountPosButton', function(require) {
                     order.add_product(product, { price: discount_value });
                 }
 
-                var j=0;
-                while ( j < lines.length ) {
-
-                    if (lines[j].get_product() === product) {
-
-                        console.log('lines[j].getproduct',lines[j].get_product());
-                        console.log('lines[j].getDiscount',lines[j].get_discount_str() );
-                        console.log('lines[j]p.desc',lines[j].get_product().description);
-
-                    }
-                    j++;
-
-                }
             }
 
         }//CLASS
-
 
     DiscountPosButton.template = 'DiscountPosButton';
 

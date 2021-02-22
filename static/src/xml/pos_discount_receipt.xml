@@ -80,37 +80,3 @@
 
 </t>
 </templates>
-
-
-
-
-
-
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<templates id="template" xml:space="preserve">-->
-<!--   <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">-->
-
-<!--       <div class="orderlines">-->
-<!--           <t t-foreach='receipt.orderlines' t-as='line'>-->
-<!--               <t t-if="line.product_name_wrapped[0] == 'Discount'">-->
-<!--                    <div class="pos-receipt-left-padding">-->
-<!--                        <t t-if="line.product_description_sale == 'percentage'">-->
-<!--                            Percentage =-->
-<!--                            <em>-->
-<!--                                <t t-esc="line.product_description" />-->
-<!--                            </em>-->
-
-<!--                        </t>-->
-<!--                        <t t-if="line.product_description_sale == 'amount'">-->
-<!--                            Amount =-->
-<!--                            <em>-->
-<!--                                <t t-esc="env.pos.format_currency(line.product_description)" />-->
-<!--                            </em>-->
-<!--                         </t>-->
-
-<!--                    </div>-->
-<!--                </t>-->
-<!--           </t>-->
-<!--       </div>-->
-<!--   </t>-->
-<!--</templates>-->
