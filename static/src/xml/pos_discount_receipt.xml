@@ -1,19 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
    <t t-extend="OrderReceipt">
-       <t t-jquery=".orderlines" t-operation='append'>
+       <t t-jquery=".orderlines" t-operation='inner'>
            <t t-foreach='receipt.orderlines' t-as='line'>
+               <t t-if="line.product_name_wrapped[0] != 'Discount'">
+                   <t t-set='simple' t-value='(line.discount === 0 and line.unit_name === "Units" and line.quantity === 1 and !discount_to_show and !(line.display_discount_policy == "without_discount" &amp;&amp; line.price != line.price_lst))' />
+                    <t t-if='simple'>
+                        <div><t t-esc='line.product_name_wrapped[0]' /><span t-esc='widget.format_currency_no_symbol(line.price_display)' class="price_display pos-receipt-right-align"/></div><t t-call="OrderReceiptWrappedProductNameLines"/></t>
+                    <t t-if='!simple'>
+                        <div t-esc='line.product_name_wrapped[0]'/><t t-call="OrderReceiptWrappedProductNameLines"/><t t-if="line.display_discount_policy == 'without_discount' &amp;&amp; line.price != line.price_lst"><div class="pos-receipt-left-padding"><t t-esc="widget.format_currency_no_symbol(line.price_lst)" />-><t t-esc="widget.format_currency_no_symbol(line.price)" /></div>
+                        </t>
+                        <t t-elif='line.discount !== 0'>
+                            <div class="pos-receipt-left-padding">
+                                <t t-if="pos.config.iface_tax_included === 'total'">
+                                    <t t-esc="widget.format_currency_no_symbol(line.price_with_tax_before_discount)"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-esc="widget.format_currency_no_symbol(line.price)"/>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-if='line.discount !== 0'>
+                            <div class="pos-receipt-left-padding">
+                                Discount: <t t-esc='line.discount' />%
+                            </div>
+                        </t>
+                        <div class="pos-receipt-left-padding">
+                            <t t-esc="Math.round(line.quantity * Math.pow(10, pos.dp['Product Unit of Measure'])) / Math.pow(10, pos.dp['Product Unit of Measure'])"/>
+                            <t t-if='line.unit_name !== "Units"' t-esc='line.unit_name'/>
+                            x
+                            <t t-esc='widget.format_currency_no_symbol(line.price_display_one)' />
+                            <span class="price_display pos-receipt-right-align">
+                                <t t-esc='widget.format_currency_no_symbol(line.price_display)'/>
+                            </span>
+                        </div>
+                    </t>
+
+               </t>
                <t t-if="line.product_name_wrapped[0] == 'Discount'">
+                   <t t-jquery=".orderlines" t-operation="replace">
+
+<!--                        <t t-if='!taxincluded'>-->
+                            <div class="pos-receipt-right-align">--------</div>
+                            <br/>
+                            <div>Subtotal<span t-esc='widget.format_currency(receipt.subtotal - line.price)' class="pos-receipt-right-align"/></div>
+    <!--                        <t t-foreach='receipt.tax_details' t-as='tax'>-->
+                                <div>
+    <!--                                <t t-esc='tax.name' />-->
+    <!--                                <span t-esc='widget.format_currency_no_symbol(tax.amount)' class="pos-receipt-right-align"/>-->
+                            </div>
+<!--                             <t t-if='simple'>-->
+                            <div><t t-esc='line.product_name_wrapped[0]' /><span t-esc='widget.format_currency_no_symbol(line.price_display)' class="price_display pos-receipt-right-align"/></div><t t-call="OrderReceiptWrappedProductNameLines"/></t>
+<!--                        </t>-->
+
                     <div class="pos-receipt-left-padding">
                         <t t-if="line.product_description_sale == 'percentage'">
-                            Percentage =
+                            Percentage
                             <em>
                                 <t t-esc="line.product_description" />
                             </em>
 
                         </t>
                         <t t-if="line.product_description_sale == 'amount'">
-                            Amount =
+                            Amount
                             <em>
                                 <t t-esc="widget.format_currency(line.product_description)" />
                             </em>
@@ -21,9 +70,9 @@
 
 
                     </div>
-                </t>
 
-           </t>
-       </t>
+               </t>
+            </t>
+        </t>
    </t>
 </templates>

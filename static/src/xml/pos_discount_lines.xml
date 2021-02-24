@@ -2,19 +2,53 @@
 
 <templates id="template" xml:space="preserve">
    <t t-extend="Orderline">
-        <t t-jquery=".info-list" t-operation='append'>
-            <t t-if="line.get_product().display_name== 'Discount'">
+        <t t-jquery=".info-list" t-operation='inner'>
+            <t t-if="line.get_product().display_name != 'Discount'">
+                <t t-if="line.get_quantity_str() !== '1' || line.selected ">
+                    <li class="info">
+                        <em>
+                            <t t-esc="line.get_quantity_str()" />
+                        </em>
+                        <t t-esc="line.get_unit().name" />
+                        at
+                        <t t-if="line.display_discount_policy() == 'without_discount' &amp;&amp;
+                            line.get_unit_display_price() != line.get_lst_price()">
+                            <s>
+                                <t t-esc="widget.format_currency(line.get_fixed_lst_price(),'Product Price')" />
+                            </s>
+                            <t t-esc="widget.format_currency(line.get_unit_display_price(),'Product Price')" />
+                        </t>
+                        <t t-else="">
+                            <t t-esc="widget.format_currency(line.get_unit_display_price(),'Product Price')" />
+                        </t>
+                        /
+                        <t t-esc="line.get_unit().name" />
+                    </li>
+                </t>
+                <t t-if="line.get_discount_str() !== '0'">
+                    <li class="info">
+                        With a
+                        <em>
+                            <t t-esc="line.get_discount_str()" />%
+                        </em>
+                        discount
+                    </li>
+                </t>
+
+
+            </t>
+            <t t-if="line.get_product().display_name == 'Discount'">
 
                 <li class="info">
                     <t t-if="line.get_product().description_sale == 'percentage'">
-                            Percentage =
+                            Percentage
                             <em>
                                 <t t-esc="line.get_product().description" />
                             </em>
 
                     </t>
                     <t t-if="line.get_product().description_sale == 'amount'">
-                            Amount =
+                            Amount
                             <em>
                                 <t t-esc="widget.format_currency(line.get_product().description)" />
                             </em>
